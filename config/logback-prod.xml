@@ -18,7 +18,7 @@
         </rollingPolicy>
         <triggeringPolicy
                 class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <MaxFileSize>10MB</MaxFileSize>
+            <MaxFileSize>50MB</MaxFileSize>
         </triggeringPolicy>
     </appender>
     <logger name="org.springframework.web.client" level="TRACE" />
