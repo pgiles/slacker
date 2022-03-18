@@ -1,0 +1,16 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    team: connected-ship 
+  name: cracker 
+  namespace: default 
+spec:
+  endpoints:
+  - interval: 15s
+    port: http 
+  selector:
+    matchLabels:
+      app: slacker 
+
+

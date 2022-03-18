@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: slacker
+  labels:
+    app: slacker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: slacker
+  
+  template:
+    metadata:
+      # Set labels on the pod.
+      # This is used in the deployment selector.
+      labels:
+        app: slacker 
+    spec:
+      containers:
+        - name: slacker 
+          image: slacker:1.0.0
+          ports:
+          - containerPort: 8080
+
