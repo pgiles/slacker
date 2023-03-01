@@ -3,7 +3,7 @@ kind: ServiceMonitor
 metadata:
   labels:
     team: connected-ship 
-  name: cracker 
+  name: slacker 
   namespace: default 
 spec:
   endpoints:
