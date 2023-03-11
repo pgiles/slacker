@@ -1,25 +1,60 @@
+--- 
 apiVersion: apps/v1
 kind: Deployment
-metadata:
-  name: slacker
-  labels:
+metadata: 
+  labels: 
     app: slacker
-spec:
+    stack: java
+  name: slacker
+spec: 
   replicas: 1
-  selector:
-    matchLabels:
+  selector: 
+    matchLabels: 
       app: slacker
-  
-  template:
+  strategy: 
+    rollingUpdate: 
+      maxSurge: 25%
+      maxUnavailable: 50%
+    type: RollingUpdate
+  template: 
     metadata:
       # Set labels on the pod.
       # This is used in the deployment selector.
       labels:
-        app: slacker 
-    spec:
-      containers:
-        - name: slacker 
-          image: slacker:1.0.0
-          ports:
-          - containerPort: 8080
-
+        app: slacker
+        stack: java
+    spec: 
+      containers: 
+        - name: slacker
+          image: slacker:1.0.0 
+          imagePullPolicy: IfNotPresent
+          livenessProbe: 
+            failureThreshold: 5
+            httpGet: 
+              path: /actuator/health
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          ports: 
+            - containerPort: 8080
+          readinessProbe: 
+            failureThreshold: 3
+            httpGet: 
+              path: /actuator/prometheus
+              port: 8080
+              scheme: HTTP
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: 
+            limits: 
+              cpu: 500m
+              memory: 1Gi
+            requests: 
+              cpu: 400m
+              memory: 768Mi
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 2
